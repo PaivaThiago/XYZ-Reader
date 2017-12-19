@@ -1,4 +1,5 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_image_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -19,27 +20,23 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
-            app:expandedTitleMargin="@dimen/activity_horizontal_margin"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:background="@color/colorPrimary"
                 android:scaleType="centerCrop"
-                app:viewAspectRatio="1.33"
-                app:actualImageScaleType="focusCrop"
-                app:placeholderImage="@drawable/ic_image"
-                app:placeholderImageScaleType="centerInside"
-                app:layout_collapseMode="parallax"/>
+                android:src="@drawable/ic_image"
+                android:contentDescription="@string/app_name"
+                android:adjustViewBounds="true"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:contentInsetStart="@dimen/activity_horizontal_margin"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -85,8 +82,7 @@
                        android:maxLines="1"
                        android:textColor="@color/primaryText"
                        android:visibility="visible"
-                       android:textStyle="bold"
-                       tools:text="Hello"/>
+                       android:textStyle="bold"/>
 
                    <LinearLayout
                        android:layout_width="match_parent"
@@ -113,14 +109,13 @@
 
                    <TextView
                        android:id="@+id/article_body"
-                       style="@style/TextAppearance.AppCompat.Subhead"
+                       style="@style/TextAppearance.AppCompat.Medium"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:layout_marginTop="30dp"
                        android:autoLink="web"
                        android:linksClickable="true"
-                       android:textColor="@color/secondaryText"
-                       tools:text="@string/lorem_ipsum"/>
+                       android:textColor="@color/secondaryText" />
 
                </LinearLayout>
 
@@ -134,7 +129,7 @@
         android:id="@+id/share_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="@dimen/marginFab"
         android:clickable="true"
         android:focusable="true"
         android:contentDescription="@string/action_share"
@@ -144,7 +139,7 @@
         app:rippleColor="@android:color/white"
         app:fabSize="normal"
         app:borderWidth="0dp"
-        app:elevation="@dimen/fab_elevation"
-        app:pressedTranslationZ="@dimen/fab_press_translation_z" />
+        app:elevation="@dimen/elevationFab"
+        app:pressedTranslationZ="@dimen/elevationPressFab" />
 
 </android.support.design.widget.CoordinatorLayout>

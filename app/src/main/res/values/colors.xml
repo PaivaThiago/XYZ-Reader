@@ -6,13 +6,9 @@
 
     <color name="primaryText">#de000000</color>
     <color name="secondaryText">#8a000000</color>
-    <color name="text_primary_light">#ffffffff</color>
-    <color name="text_secondary_light">#b3ffffff</color>
-    <color name="text_disabled_light">#4dffffff</color>
-
-    <color name="colorDivider">#1f000000</color>
+    <color name="primaryTextLight">#ffffffff</color>
+    <color name="secondaryTextLight">#b3ffffff</color>
 
     <color name="colorBackgroundLight">#fafafa</color>
-    <color name="colorBackground">#e0e0e0</color>
-    <color name="background_dark">#ff333333</color>
+    <color name="colorBackground">#eaeaea</color>
 </resources>

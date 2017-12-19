@@ -1,47 +1,40 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_margin="@dimen/marginCard"
     android:clickable="true"
     android:focusable="true"
+    android:elevation="@dimen/elevationCard"
     android:foreground="?selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/paddingDefault"
         android:orientation="vertical">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
             android:background="@color/colorPrimary"
             android:scaleType="centerCrop"
-            app:viewAspectRatio="1.5"
-            app:actualImageScaleType="focusCrop"
-            app:placeholderImage="@drawable/ic_image"
-            app:placeholderImageScaleType="centerInside"/>
+            android:src="@drawable/ic_image"
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:id="@+id/article_title"
-            style="@style/ArticleItemTitle"
-            tools:text="Hello"/>
+            style="@style/ArticleItemTitle"/>
 
         <TextView
             android:id="@+id/article_subtitle"
-            style="@style/ArticleItemSubText"
-            tools:text="subtext"/>
+            style="@style/ArticleItemSubText"/>
 
         <TextView
             android:id="@+id/article_author"
-            style="@style/ArticleItemSubText"
-            android:paddingBottom="@dimen/paddingDefault"
-            tools:text="author"/>
+            style="@style/ArticleItemSubText"/>
 
     </LinearLayout>
 

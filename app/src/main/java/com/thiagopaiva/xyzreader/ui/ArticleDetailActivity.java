@@ -15,19 +15,24 @@ import com.thiagopaiva.xyzreader.R;
 import com.thiagopaiva.xyzreader.data.ArticleLoader;
 import com.thiagopaiva.xyzreader.data.ItemsContract;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ArticleDetailActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public final static String EXTRA_SELECTED_ID = "EXTRA_SELECTED_ID";
 
     private Cursor mCursor;
     private long mSelectedItemId;
-    private ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
+
+    @BindView(R.id.pager) ViewPager mPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
+        ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
             if (getIntent() != null && getIntent().getData() != null) {
@@ -38,9 +43,7 @@ public class ArticleDetailActivity extends BaseActivity implements LoaderManager
         }
 
         getSupportLoaderManager().initLoader(0, null, this);
-
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
         mPager.setPageMargin((int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
@@ -79,7 +82,6 @@ public class ArticleDetailActivity extends BaseActivity implements LoaderManager
 
         if (mSelectedItemId > 0) {
             mCursor.moveToFirst();
-            // TODO: optimize
             while (!mCursor.isAfterLast()) {
                 if (mCursor.getLong(ArticleLoader.Query._ID) == mSelectedItemId) {
                     final int position = mCursor.getPosition();
@@ -99,7 +101,7 @@ public class ArticleDetailActivity extends BaseActivity implements LoaderManager
     }
 
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
-        public MyPagerAdapter(FragmentManager fm) {
+        private MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

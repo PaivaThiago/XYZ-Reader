@@ -14,26 +14,29 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.facebook.drawee.view.SimpleDraweeView;
+
+import com.squareup.picasso.Picasso;
 import com.thiagopaiva.xyzreader.R;
 import com.thiagopaiva.xyzreader.data.ArticleLoader;
 import com.thiagopaiva.xyzreader.data.ItemsContract;
 import com.thiagopaiva.xyzreader.data.UpdaterService;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ArticleListActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
+        ButterKnife.bind(this);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         getSupportLoaderManager().initLoader(0, null, this);
 
         if (savedInstanceState == null) {
@@ -85,9 +88,9 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
         adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
         int columnCount = getResources().getInteger(R.integer.list_column_count);
-        StaggeredGridLayoutManager sglm =
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(sglm);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
     }
 
     @Override
@@ -98,7 +101,7 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private Cursor mCursor;
 
-        public Adapter(Cursor cursor) {
+        private Adapter(Cursor cursor) {
             mCursor = cursor;
         }
 
@@ -115,8 +118,9 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
+                    startActivity(intent);
                 }
             });
             return vh;
@@ -133,9 +137,9 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
                             DateUtils.FORMAT_ABBREV_ALL).toString());
 
             holder.authorTextView.setText(mCursor.getString(ArticleLoader.Query.AUTHOR));
-
-            ImageLoadingUtils.load(holder.thumbnailView, mCursor.getString(ArticleLoader.Query.THUMB_URL));
-            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+            Picasso.with(getBaseContext()).load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
+                    .placeholder(R.drawable.ic_image).resize(1024,768)
+                    .centerCrop().into(holder.thumbnailView);
         }
 
         @Override
@@ -147,16 +151,14 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public SimpleDraweeView thumbnailView;
-        public TextView titleView;
-        public TextView subtitleView, authorTextView;
+        @BindView(R.id.thumbnail) ImageView thumbnailView;
+        @BindView(R.id.article_title) TextView titleView;
+        @BindView(R.id.article_subtitle) TextView subtitleView;
+        @BindView(R.id.article_author) TextView authorTextView;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
-            thumbnailView = (SimpleDraweeView) view.findViewById(R.id.thumbnail);
-            titleView = (TextView) view.findViewById(R.id.article_title);
-            subtitleView = (TextView) view.findViewById(R.id.article_subtitle);
-            authorTextView = (TextView) view.findViewById(R.id.article_author);
+            ButterKnife.bind(this, view);
         }
     }
 }
