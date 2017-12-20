@@ -5,7 +5,6 @@
     android:layout_margin="@dimen/marginCard"
     android:clickable="true"
     android:focusable="true"
-    android:elevation="@dimen/elevationCard"
     android:foreground="?selectableItemBackground">
 
     <LinearLayout
@@ -14,15 +13,26 @@
         android:paddingBottom="@dimen/paddingDefault"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/thumbnail"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_image"
-            android:adjustViewBounds="true"/>
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_image"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/app_name"
+                android:background="@color/colorPrimary"/>
+
+            <com.thiagopaiva.xyzreader.ui.DynamicHeightNetworkImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/article_title"

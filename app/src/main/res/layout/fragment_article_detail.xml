@@ -86,16 +86,26 @@
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/photo"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:background="@color/colorPrimary"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_image"
-                android:adjustViewBounds="true"/>
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_image"
+                    android:scaleType="centerInside"
+                    android:contentDescription="@string/app_name"
+                    android:background="@color/colorPrimary"/>
+
+                <com.thiagopaiva.xyzreader.ui.DynamicHeightNetworkImageView
+                    android:id="@+id/photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"/>
+            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"
@@ -122,8 +132,6 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|right|end"
         app:rippleColor="@android:color/white"
-        app:fabSize="normal"
-        app:elevation="@dimen/elevationFab"
-        app:pressedTranslationZ="@dimen/elevationPressFab" />
+        app:fabSize="normal"/>
 
 </android.support.design.widget.CoordinatorLayout>

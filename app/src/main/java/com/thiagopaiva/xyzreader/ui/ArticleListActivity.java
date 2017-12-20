@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,10 +15,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.thiagopaiva.xyzreader.R;
 import com.thiagopaiva.xyzreader.data.ArticleLoader;
 import com.thiagopaiva.xyzreader.data.ItemsContract;
@@ -91,6 +90,7 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        Snackbar.make(mSwipeRefreshLayout, getResources().getText(R.string.loadingComplete), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -137,9 +137,10 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
                             DateUtils.FORMAT_ABBREV_ALL).toString());
 
             holder.authorTextView.setText(mCursor.getString(ArticleLoader.Query.AUTHOR));
-            Picasso.with(getBaseContext()).load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
-                    .placeholder(R.drawable.ic_image).resize(1024,768)
-                    .centerCrop().into(holder.thumbnailView);
+            holder.thumbnailView.setImageUrl(
+                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
+                    ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
+            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
         }
 
         @Override
@@ -151,7 +152,7 @@ public class ArticleListActivity extends BaseActivity implements LoaderManager.L
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.thumbnail) ImageView thumbnailView;
+        @BindView(R.id.thumbnail) DynamicHeightNetworkImageView thumbnailView;
         @BindView(R.id.article_title) TextView titleView;
         @BindView(R.id.article_subtitle) TextView subtitleView;
         @BindView(R.id.article_author) TextView authorTextView;

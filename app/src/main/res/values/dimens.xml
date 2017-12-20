@@ -9,13 +9,8 @@
     <item name="detail_body_line_spacing_multiplier" format="float" type="fraction">1.25</item>
     <dimen name="detail_image_height">250dp</dimen>
 
-    <dimen name="marginFab">16dp</dimen>
-    <dimen name="elevationFab">6dp</dimen>
-    <dimen name="elevationPressFab">12dp</dimen>
-
     <dimen name="paddingDefault">8dp</dimen>
     <dimen name="marginDefault">8dp</dimen>
-
     <dimen name="marginCard">4dp</dimen>
-    <dimen name="elevationCard">2dp</dimen>
+    <dimen name="marginFab">16dp</dimen>
 </resources>

@@ -16,10 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.thiagopaiva.xyzreader.R;
 import com.thiagopaiva.xyzreader.data.ArticleLoader;
 
@@ -32,7 +30,7 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
     private Cursor mCursor;
     private long mItemId;
     @BindView(R.id.detail_toolbar) Toolbar mToolbar;
-    @BindView(R.id.photo) ImageView mPhotoView;
+    @BindView(R.id.photo) DynamicHeightNetworkImageView mPhotoView;
     @BindView(R.id.article_date) TextView dateView;
     @BindView(R.id.article_title) TextView titleView;
     @BindView(R.id.article_author) TextView authorView;
@@ -96,11 +94,11 @@ public class ArticleDetailFragment extends Fragment implements LoaderManager.Loa
 
             String author = mCursor.getString(ArticleLoader.Query.AUTHOR);
             final String body = Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)).toString();
-            String photo = mCursor.getString(ArticleLoader.Query.PHOTO_URL);
 
             mToolbar.setTitle(title);
-            Picasso.with(getContext()).load(photo).placeholder(R.drawable.ic_image)
-                    .resize(1024,768).centerCrop().into(mPhotoView);
+            mPhotoView.setImageUrl(mCursor.getString(ArticleLoader.Query.PHOTO_URL),
+                    ImageLoaderHelper.getInstance(getContext()).getImageLoader());
+            mPhotoView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
 
             titleView.setText(title);
             dateView.setText(date);
